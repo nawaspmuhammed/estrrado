@@ -1,0 +1,41 @@
+<div class="card">
+    <div class="card-body">
+        <form [formGroup]="angForm" novalidate>
+
+            <div class="form-group">
+                <label class="col-md-4">User</label>
+                <select formControlName="name" [(ngModel)]="order.name">
+                  <option *ngFor="let user of users" 
+                  [value]="user.name" 
+                  [attr.selected]="order.name==user.name ? true : null">
+                {{user.name}}
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4">Product</label>
+                <select formControlName="product" (change)="onChange($event)" [(ngModel)]="order.product">
+                  <option *ngFor="let product of products" 
+                  [value]="product.name" 
+                  [attr.selected]="product.name==product.name ? true : null">
+                {{product.name}}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4">Quantity</label>
+                <input type="hidden" class="form-control" formControlName="price" [(ngModel)]="price_amount" />
+                <input type="text" class="form-control" formControlName="quantity" #quantity [(ngModel)]="order.quantity" />
+            </div>
+            <div *ngIf="angForm.controls['quantity'].invalid && angForm.controls['quantity'].touched" class="alert alert-danger">
+                <div *ngIf="angForm.controls['quantity'].errors.required">
+                    Quantity is required.
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" (click)="updateOrder()" [disabled]="angForm.pristine || angForm.invalid" class="btn btn-primary">Update Order</button>
+            </div>
+        </form>
+    </div>
+</div>
